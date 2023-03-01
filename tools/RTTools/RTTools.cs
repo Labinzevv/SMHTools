@@ -27,7 +27,7 @@ public class RTTools : EditorWindow
     bool enableFind = false;
     GameObject[] objsFind;
 
-    //selection Obj with mesh filter name;
+    //selection Obj with mesh filter name
     string str2;
     MeshFilter meshFilter;
     bool enableFindObjs;
@@ -75,7 +75,7 @@ public class RTTools : EditorWindow
             enableFind = true;
         }
 
-        //selection Obj with mesh filter name;
+        //selection Obj with mesh filter name
         GUILayout.Label("selection Obj with mesh filter name");
         str2 = GUILayout.TextField(str2);
         if (GUILayout.Button("find"))
@@ -87,7 +87,7 @@ public class RTTools : EditorWindow
     private void OnDisable() { SceneView.duringSceneGui -= SceneViewDuring; }
     private void SceneViewDuring(SceneView scene)
     {
-        //selection Obj with mesh filter name;
+        //selection Obj with mesh filter name
         if (enableFindObjs == true)
         {
             List<GameObject> objectsInScene = new List<GameObject>();
@@ -95,7 +95,7 @@ public class RTTools : EditorWindow
             {
                 if (go.GetComponent<MeshFilter>())
                 {
-                    if (go.GetComponent<MeshFilter>().sharedMesh.name == str2)
+                    if (go.GetComponent<MeshFilter>().sharedMesh.name == str2/*go.GetComponent<MeshFilter>().sharedMesh == null*/)
                     {
                         objectsInScene.Add(go);
                         Selection.objects = objectsInScene.ToArray();
