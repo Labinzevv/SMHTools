@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections.Generic;
 using UnityEditor;
 
 public class RTTools : EditorWindow 
@@ -25,6 +26,11 @@ public class RTTools : EditorWindow
     string str;
     bool enableFind = false;
     GameObject[] objsFind;
+
+    //selection Obj with mesh filter name;
+    string str2;
+    MeshFilter meshFilter;
+    bool enableFindObjs;
 
     //[MenuItem("MyTools/Change Pivot Point")]
     [MenuItem("MyTools/Options")]
@@ -68,11 +74,37 @@ public class RTTools : EditorWindow
         {
             enableFind = true;
         }
+
+        //selection Obj with mesh filter name;
+        GUILayout.Label("selection Obj with mesh filter name");
+        str2 = GUILayout.TextField(str2);
+        if (GUILayout.Button("find"))
+        {
+            enableFindObjs = true;
+        }
     }
     private void OnEnable() { SceneView.duringSceneGui += SceneViewDuring; }
     private void OnDisable() { SceneView.duringSceneGui -= SceneViewDuring; }
     private void SceneViewDuring(SceneView scene)
     {
+        //selection Obj with mesh filter name;
+        if (enableFindObjs == true)
+        {
+            List<GameObject> objectsInScene = new List<GameObject>();
+            foreach (GameObject go in Resources.FindObjectsOfTypeAll(typeof(GameObject)) as GameObject[])
+            {
+                if (go.GetComponent<MeshFilter>())
+                {
+                    if (go.GetComponent<MeshFilter>().sharedMesh.name == str2)
+                    {
+                        objectsInScene.Add(go);
+                        Selection.objects = objectsInScene.ToArray();
+                    }
+                }
+                enableFindObjs = false;
+            }
+        }
+
         //selection Obj with tag
         if (str != "")
         {
