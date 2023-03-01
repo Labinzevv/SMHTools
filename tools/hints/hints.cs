@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+[RequireComponent(typeof(MeshFilter), typeof(MeshRenderer))] // добавляет на объект указанные компоненты(если их нет изначально)
 [ExecuteAlways] // скрипт работает в редакторе
 public class hints : MonoBehaviour
 {
