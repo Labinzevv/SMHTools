@@ -32,7 +32,9 @@ public class RTTools : EditorWindow
     MeshFilter meshFilter;
     bool enableFindObjs;
 
-    //[MenuItem("MyTools/Change Pivot Point")]
+    //move obj перемещение объекта с помощью стрелок (в скрипте MenuTools)
+    public static float distance;
+
     [MenuItem("MyTools/Options")]
     public static void Init()
     {
@@ -46,6 +48,10 @@ public class RTTools : EditorWindow
         //zoom
         GUILayout.Label("Zoom");
         speedZoom = EditorGUILayout.FloatField("Speed Zoom:", speedZoom);
+
+        //move obj перемещение объекта с помощью стрелок (в скрипте MenuTools)
+        GUILayout.Label("Move Obj");
+        distance = EditorGUILayout.FloatField("Distance:", distance);
 
         //spliter
         GUILayout.Box("",GUILayout.Height(splitterWidth), GUILayout.Height(splitterWidth), 
