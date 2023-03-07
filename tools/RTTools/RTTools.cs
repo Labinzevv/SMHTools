@@ -142,19 +142,38 @@ public class RTTools : EditorWindow
         //selection Obj with material name
         if (enableFindMat == true)
         {
+            //ищет только по выделенным объектам
+            //List<GameObject> objectsInScene = new List<GameObject>();
+            //foreach (GameObject go in Selection.objects) 
+            //{
+            //    if (go.GetComponent<MeshRenderer>())
+            //    {
+            //        if (go.GetComponent<MeshRenderer>().sharedMaterial.name == str3/*go.GetComponent<MeshFilter>().sharedMesh == null*/)
+            //        {
+            //            objectsInScene.Add(go);
+            //            Selection.objects = objectsInScene.ToArray();
+            //        }
+            //    }
+            //    enableFindMat = false;
+            //}
+
+            //ищет по чилдам выделенного объекта
             List<GameObject> objectsInScene = new List<GameObject>();
-            foreach (GameObject go in Selection.objects) //ищет только по выделенным объектам
+            Transform selectedObjectTransform = Selection.activeTransform;
+            int childCount = selectedObjectTransform.childCount;
+            for (int i = 0; i < childCount; i++)
             {
-                if (go.GetComponent<MeshRenderer>())
+                Transform childTransform = selectedObjectTransform.GetChild(i);
+                if (childTransform.GetComponent<MeshRenderer>() && childTransform.GetComponent<MeshRenderer>().sharedMaterial.name == str3)
                 {
-                    if (go.GetComponent<MeshRenderer>().sharedMaterial.name == str3/*go.GetComponent<MeshFilter>().sharedMesh == null*/)
+                    if (childTransform.GetComponent<MeshRenderer>().sharedMaterial.name == str3/*go.GetComponent<MeshFilter>().sharedMesh == null*/)
                     {
-                        objectsInScene.Add(go);
-                        Selection.objects = objectsInScene.ToArray();
+                        objectsInScene.Add(childTransform.gameObject);
                     }
                 }
-                enableFindMat = false;
             }
+            Selection.objects = objectsInScene.ToArray();
+            enableFindMat = false;
         }
 
         //moveObjTo... # - shift, % - ctrl, & - alt, SPACE
