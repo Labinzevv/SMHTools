@@ -4,16 +4,20 @@ using UnityEditor;
 
 public class RTTools : EditorWindow 
 {
+    //scroll GUI
+    private Vector2 scrollPosition;
+    private Vector2 maxScroll = new Vector2(200, 200); // максимальные значения полосы прокрутки
+
+    //GUI
+    private static readonly Vector2Int size = new Vector2Int(250, 100);
+    float splitterWidth = 5;
+
     //Quick change pivot point
     private bool b = true;
     bool enablePivotPoint;
     private Transform objParent;
     private Transform obj;
     int i;
-
-    //GUI
-    private static readonly Vector2Int size = new Vector2Int(250, 100);
-    float splitterWidth = 5;
 
     //zoom
     static float speedZoom = 5;
@@ -49,6 +53,9 @@ public class RTTools : EditorWindow
     }
     private void OnGUI()
     {
+        //start scroll GUI
+        scrollPosition = EditorGUILayout.BeginScrollView(scrollPosition);
+
         //zoom
         GUILayout.Label("Zoom");
         speedZoom = EditorGUILayout.FloatField("Speed Zoom:", speedZoom);
@@ -100,6 +107,9 @@ public class RTTools : EditorWindow
         {
             enableFindMat = true;
         }
+
+        //end scroll GUI
+        EditorGUILayout.EndScrollView();
     }
     private void OnEnable() { SceneView.duringSceneGui += SceneViewDuring; }
     private void OnDisable() { SceneView.duringSceneGui -= SceneViewDuring; }
