@@ -32,6 +32,10 @@ public class RTTools : EditorWindow
     MeshFilter meshFilter;
     bool enableFindObjs;
 
+    //selection Obj with material name
+    string str3;
+    bool enableFindMat;
+
     //move obj перемещение объекта с помощью стрелок (в скрипте MenuTools)
     public static float distance;
 
@@ -88,6 +92,14 @@ public class RTTools : EditorWindow
         {
             enableFindObjs = true;
         }
+
+        //selection Obj with material name
+        GUILayout.Label("selection Obj with mesh material name");
+        str3 = GUILayout.TextField(str3);
+        if (GUILayout.Button("find"))
+        {
+            enableFindMat = true;
+        }
     }
     private void OnEnable() { SceneView.duringSceneGui += SceneViewDuring; }
     private void OnDisable() { SceneView.duringSceneGui -= SceneViewDuring; }
@@ -125,7 +137,25 @@ public class RTTools : EditorWindow
         else
         {
             enableFind = false;
-        }   
+        }
+
+        //selection Obj with material name
+        if (enableFindMat == true)
+        {
+            List<GameObject> objectsInScene = new List<GameObject>();
+            foreach (GameObject go in Selection.objects) //ищет только по выделенным объектам
+            {
+                if (go.GetComponent<MeshRenderer>())
+                {
+                    if (go.GetComponent<MeshRenderer>().sharedMaterial.name == str3/*go.GetComponent<MeshFilter>().sharedMesh == null*/)
+                    {
+                        objectsInScene.Add(go);
+                        Selection.objects = objectsInScene.ToArray();
+                    }
+                }
+                enableFindMat = false;
+            }
+        }
 
         //moveObjTo... # - shift, % - ctrl, & - alt, SPACE
         if (Event.current.Equals(Event.KeyboardEvent("g")))
