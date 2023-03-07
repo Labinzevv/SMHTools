@@ -40,6 +40,9 @@ public class RTTools : EditorWindow
     string str3;
     bool enableFindMat;
 
+    //selection random child Objs 
+    bool enableRandom = false;
+
     //move obj перемещение объекта с помощью стрелок (в скрипте MenuTools)
     public static float distance;
 
@@ -106,6 +109,13 @@ public class RTTools : EditorWindow
         if (GUILayout.Button("find"))
         {
             enableFindMat = true;
+        }
+
+        //selection random child Objs 
+        GUILayout.Label("selection random child Objs ");
+        if (GUILayout.Button("select"))
+        {
+            enableRandom = true;
         }
 
         //end scroll GUI
@@ -184,6 +194,30 @@ public class RTTools : EditorWindow
             }
             Selection.objects = objectsInScene.ToArray();
             enableFindMat = false;
+        }
+
+        //selection random child Objs 
+        if (enableRandom == true)
+        {
+            List<GameObject> children = new List<GameObject>();
+            Transform selectedObjectTransform = Selection.activeTransform;
+            int childCount = selectedObjectTransform.childCount;
+
+            for (int i = 0; i < childCount; i++)
+            {
+                Transform childTransform = selectedObjectTransform.GetChild(i);
+                children.Add(childTransform.gameObject);
+            }
+            for (int i = 0; i < children.Count; i++)
+            {
+                int randomIndex = Random.Range(0, children.Count);
+                GameObject randomChild = children[randomIndex];
+
+                // Удалить выбранный дочерний объект из списка, чтобы он не был выбран повторно
+                children.RemoveAt(randomIndex);
+            }
+            Selection.objects = children.ToArray();
+            enableRandom = false;
         }
 
         //moveObjTo... # - shift, % - ctrl, & - alt, SPACE
