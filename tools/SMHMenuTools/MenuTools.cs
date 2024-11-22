@@ -30,7 +30,6 @@ public class MenuTools : EditorWindow
     //перемещение объекта с помощью стрелок.
     //Выставить значение шага во вкладке MyTools-RTTools-MoveObj-Distance. Перемещать объект ctrl + стрелки клавиатуры
     static RTTools RTTools;
-    static moveObject moveObject;
     static float distance;
     static float x;
     static float y;
